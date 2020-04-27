@@ -1,6 +1,6 @@
 <template>
 
-    <el-table :data="tableData" style="width: 100%">
+    <el-table :data="tableData" style="width: 100%" @row-dblclick="showEvent">
 
         <el-table-column type="index" width="50" prop="id">
         </el-table-column>
@@ -32,7 +32,10 @@
 
             </template>
         </el-table-column>
-  </el-table>
+    </el-table>
+
+
+
 </template>
 
 <script>
@@ -125,7 +128,31 @@ export default {
         setStatus(){
             // alert(this.$store.state.approvalStatus)
             this.status = this.$store.state.approvalStatus
-        }
+        },
+
+        //展示审批事件
+        showEvent(row,event,column){
+            alert("功能开发中！！！")
+            // this.$axios.get('/api/approval/showEvent',{params:{id:row.id}}).then(response =>{
+            //     if(response.data.code == 0){
+            //         this.showUserInfo = true;
+            //         this.personInfo = response.data.data
+            //         this.left = (response.data.data.used / (response.data.data.volume*1024))*100
+            //         this.left = this.left.toFixed(2)
+            //         // console.log(this.left)
+            //         // console.log(response.data.data.used)
+            //         // console.log(response.data.data.volume)
+            //         this.drawer = true
+            //     }else{
+            //         this.$message({
+            //             type: 'info',
+            //             message: '系统繁忙，请稍后再试! '
+            //         });
+            //     }
+            // }).catch(function (error) {
+            //     console.log(error);
+            // });
+        },
     },
     watch:{
         status:function(){

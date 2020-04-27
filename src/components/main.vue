@@ -15,6 +15,10 @@
           <el-menu-item @click="changeComponent('3')"><i class="el-icon-user-solid"></i>用户管理</el-menu-item>
         </div>
 
+        <div v-if="this.$store.state.userInfo.id == 1">
+          <el-menu-item @click="changeComponent('4')"><i class="el-icon-user-solid"></i>系统日志</el-menu-item>
+        </div>
+
       </el-menu>
     </el-aside>
 
@@ -160,17 +164,17 @@
         </el-table-column>
 
         <el-table-column label="操作" prop="userType" >
-        <template slot-scope="scope">
-            <!-- <el-button size="mini" @click="handleEdit(scope.$index, scope.id)">编辑</el-button>
-            
-            <el-button slot="reference"  size="mini" type="danger" @click="handleDelete(scope.$index,scope.row.id)" >删除</el-button> -->
-            <div v-if="scope.row.userType != 1">
-             <el-button slot="reference" size="mini" type="success" @click="handleSet(scope.row.userType,scope.row.id)">设为管理员</el-button>
-            </div>
-            <div v-else-if="scope.row.userType == 1 && scope.row.id != 1">
-              <el-button slot="reference" size="mini" type="success" @click="handleSet(scope.row.userType,scope.row.id)">取消管理员</el-button>
-            </div>
-        </template>
+          <template slot-scope="scope">
+              <!-- <el-button size="mini" @click="handleEdit(scope.$index, scope.id)">编辑</el-button>
+              
+              <el-button slot="reference"  size="mini" type="danger" @click="handleDelete(scope.$index,scope.row.id)" >删除</el-button> -->
+              <div v-if="scope.row.userType != 1">
+              <el-button slot="reference" size="mini" type="success" @click="handleSet(scope.row.userType,scope.row.id)">设为管理员</el-button>
+              </div>
+              <div v-else-if="scope.row.userType == 1 && scope.row.id != 1">
+                <el-button slot="reference" size="mini" type="success" @click="handleSet(scope.row.userType,scope.row.id)">取消管理员</el-button>
+              </div>
+          </template>
         </el-table-column>
       </el-table>
       </el-main>
@@ -182,6 +186,12 @@
         layout="prev, pager, next"
         :total="total">
       </el-pagination>
+    </el-container>
+
+
+    <!-- 系统操作日志 -->
+    <el-container v-if="boxNum == 4">
+      <operation></operation>      
     </el-container>
 
     <!-- 显示用户管理的个人信息 -->
@@ -231,12 +241,13 @@
   import { mapGetters,mapState } from "vuex";
   import myupload from './upload.vue';
   import approvalBox from './approval.vue';
+  import operation from './operation.vue';
   import store from '../store';
 
   export default {
     components:{
       name:'main',
-      myleft,myupload,approvalBox
+      myleft,myupload,approvalBox,operation
     },
     computed:{
         ...mapState(['userInfo']),
@@ -268,11 +279,9 @@
         this.boxNum = name
         if(name == 0){
           this.initShareFile();   //加载时获取分享的文件
-
         }
         if(name == 1){
           this.initMyFile();
-      
         }
         if(name == 3){
           this.initMyUser();
